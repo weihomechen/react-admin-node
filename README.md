@@ -1,33 +1,20 @@
-# hackernews-async-ts
+# React Admin Node
 
-[Hacker News](https://news.ycombinator.com/) showcase using typescript && egg
+## 说明
 
-## QuickStart
+本项目是 `React Admin` 的服务端
 
-### Development
+前端传送门：[React Admin Front](https://github.com/weihomechen/react-admin.git)
 
-```bash
-$ npm i
-$ npm run dev
-$ open http://localhost:7001/
-```
+## 主要特性
 
-Don't tsc compile at development mode, if you had run `tsc` then you need to `npm run clean` before `npm run dev`.
+* node框架`egg`
+* `mongodb`数据库
+* 缓存使用`redis`
+* 消息推送使用`socket.io`
 
-### Deploy
+目前仍在开发中
 
-```bash
-$ npm run tsc
-$ npm start
-```
+## 分支
 
-### Npm Scripts
-
-- Use `npm run lint` to check code style
-- Use `npm test` to run unit test
-- se `npm run clean` to clean compiled js at development mode once
-
-### Requirement
-
-- Node.js 8.x
-- Typescript 2.8+
+`master`分支主要使用`TypeScript`， `js`分支使用`JS`，目前开发重心在`master`分支上，`js`分支后续跟进
