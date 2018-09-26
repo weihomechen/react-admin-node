@@ -5,10 +5,10 @@ exports.validate = {
   package: 'egg-validate',
 };
 
-exports.mysql = {
-  enable: false,
-  package: 'egg-mysql',
-};
+// exports.mysql = {
+//   enable: false,
+//   package: 'egg-mysql',
+// };
 
 exports.mongoose = {
   enable: true,
