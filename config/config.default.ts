@@ -1,13 +1,14 @@
-'use strict';
-/* eslint-disable no-multi-spaces */
-module.exports = appInfo => {
-  const config = exports = {};
+import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg';
 
+export default (appInfo: EggAppInfo) => {
+  const config = {} as PowerPartial<EggAppConfig>;
+
+  // override config from framework / plugin
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + 'admin';
 
-  // add your config here
-  config.middleware = [];
+  // add your egg config in here
+  config.middleware = ['auth'];
 
   config.mongoose = {
     client: {
@@ -18,11 +19,15 @@ module.exports = appInfo => {
 
   config.security = {
     ignore: '/api/',
-    domainWhiteList: ['http://127.0.0.1:8080', 'http://118.25.16.129:80', 'http://localhost:8080'],
+    domainWhiteList: [
+      'http://127.0.0.1:8080',
+      'http://118.25.16.129:80',
+      'http://localhost:8080',
+    ],
     methodnoallow: { enable: false },
     csrf: {
       enable: false,
-      ignoreJSON: true, // 默认为 false，当设置为 true 时，将会放过所有 content-type 为 `application/json` 的请求
+      ignoreJSON: false, // 默认为 false，当设置为 true 时，将会放过所有 content-type 为 `application/json` 的请求
     },
   };
 
@@ -48,7 +53,7 @@ module.exports = appInfo => {
   };
 
   config.session = {
-    key: 'BLOG_SESS',
+    key: 'ADMIN_SESS',
     maxAge: 24 * 3600 * 1000, // 1天
     httpOnly: true,
     encrypt: true,
@@ -73,7 +78,7 @@ module.exports = appInfo => {
     client: {
       accessKeyId: 'LTAI0GTeZmOJCMRn',
       accessKeySecret: 'PgPOkzgt7PfdymGyqQSrI9XOAu1sWz',
-      bucket: 'blog-uploaded',
+      bucket: 'admin-uploaded',
       endpoint: 'oss-cn-hangzhou.aliyuncs.com',
       timeout: '60s',
       secure: true,
@@ -98,5 +103,6 @@ module.exports = appInfo => {
     },
   };
 
+  // the return config will combines to EggAppConfig
   return config;
 };
