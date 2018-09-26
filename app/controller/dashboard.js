@@ -1,18 +1,18 @@
 const Controller = require('egg').Controller;
-const { index } = require('../../mock/dashboard');
-const { defaultRes } = require('../utils');
+const { fakeChartData } = require('../../mock/dashboard');
 
 class DashboardController extends Controller {
-  async index() {
+  async chart() {
     const { ctx } = this;
 
-    const response = {
-      ...defaultRes,
-      success: true,
-      data: index,
-    };
+    ctx.body = fakeChartData;
+    ctx.status = 200;
+  }
 
-    ctx.body = response;
+  async tags() {
+    const { ctx } = this;
+
+    ctx.body = fakeChartData;
     ctx.status = 200;
   }
 }

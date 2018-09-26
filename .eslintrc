@@ -2,7 +2,8 @@
   "extends": "eslint-config-egg",
   "parser": "babel-eslint",
   "rules": {
+    "strict": "off",
     "array-bracket-spacing": "off",
-    "strict": "off"
+    "space-before-function-paren": "off"
   }
 }

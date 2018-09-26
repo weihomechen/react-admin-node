@@ -6,13 +6,19 @@ module.exports = app => {
 
   const UserSchema = new Schema({
     name: { type: String, unique, required },
-    nickName: { type: String, unique, required },
-    gender: { type: Number, required },
-    age: { type: Number, default: 18 },
-    phone: { type: String, unique, required },
     pwd: { type: String, required },
-    address: String,
+    phone: { type: String, unique },
+    email: { type: String, unique },
+    role: { type: String, default: 'user' },
     avatar: String,
+    address: String,
+    signature: String,
+    title: String,
+    group: String,
+    tags: Array,
+    notifyCount: Number,
+    countryCode: Number,
+    geographic: Array,
   });
 
   return mongoose.model('User', UserSchema, 'user');

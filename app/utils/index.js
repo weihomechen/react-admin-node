@@ -1,4 +1,4 @@
-exports.passwordSecret = 'weihome admin';
+exports.passwordSecret = 'react admin';
 
 exports.defaultRes = {
   success: false,
