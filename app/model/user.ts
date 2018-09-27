@@ -7,8 +7,7 @@ export default app => {
   const userSchema = new Schema({
     name: { type: String, unique, required },
     pwd: { type: String, required },
-    phone: { type: String, unique },
-    email: { type: String, unique },
+    mobile: { type: String, unique, required },
     role: { type: String, default: 'user' },
     avatar: String,
     address: String,
@@ -16,7 +15,6 @@ export default app => {
     title: String,
     group: String,
     tags: Array,
-    notifyCount: Number,
     countryCode: Number,
     geographic: Array,
   });

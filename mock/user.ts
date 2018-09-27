@@ -45,5 +45,5 @@ export const currentUser = {
     },
   },
   address: '西湖区工专路 77 号',
-  phone: '0752-268888888',
+  mobile: '18888888888',
 };

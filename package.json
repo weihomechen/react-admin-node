@@ -7,8 +7,8 @@
     "typescript": true
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-egg-ts",
-    "stop": "egg-scripts stop --title=egg-server-egg-ts",
+    "start": "egg-scripts start --daemon --title=admin-node",
+    "stop": "egg-scripts stop --title=admin-node",
     "dev": "egg-bin dev -r egg-ts-helper/register",
     "debug": "egg-bin debug -r egg-ts-helper/register",
     "test-local": "egg-bin test -r egg-ts-helper/register",

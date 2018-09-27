@@ -1,11 +1,6 @@
-export const passwordSecret = 'react admin';
+import { Response } from './interface';
 
-export interface Response {
-  success: boolean;
-  data?: object | null;
-  msg?: string;
-  code?: string;
-};
+export const passwordSecret = 'react admin';
 
 export const defaultRes: Response = {
   success: false,

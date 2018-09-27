@@ -4,19 +4,20 @@ import { currentUser } from '../../mock/user';
 import {
   defaultRes,
   passwordSecret,
-  Response,
 } from '../utils';
-import { registerRule } from '../utils/validateRules';
+import { Response } from '../utils/interface';
+import { loginRule, registerRule } from '../utils/validateRules';
 
 export default class UserController extends Controller {
   public async login() {
     const { ctx } = this;
-    let response: Response;
+    ctx.validate(loginRule);
 
+    let response: Response;
     const {
       userName: name,
-      password: pwd,
-      mobile: phone,
+      password,
+      mobile,
       captcha,
       type,
     } = ctx.request.body;
@@ -35,11 +36,10 @@ export default class UserController extends Controller {
     }
 
     let params;
-
     // 多种登录方式
     switch (type) {
       case 'mobile':
-        params = { phone };
+        params = { mobile };
         break;
       case 'taobao':
         break;
@@ -50,14 +50,12 @@ export default class UserController extends Controller {
       case 'weixin':
         break;
       default:
-        // 密码加密
-        // const password = crypto
-        //   .createHmac('sha256', passwordSecret)
-        //   .update(unEncrypted)
-        //   .digest('hex');
+        const pwd = crypto
+          .createHmac('sha256', passwordSecret)
+          .update(password)
+          .digest('hex');
         params = { name, pwd };
     }
-
     const user = (await ctx.model.User.find(params))[0];
 
     if (user) {
@@ -70,7 +68,7 @@ export default class UserController extends Controller {
       response = {
         ...defaultRes,
         data: { type },
-        msg: '用户不存在或密码错误',
+        msg: type === 'account' ? '用户不存在或密码错误' : '用户不存在',
       };
     }
 
@@ -107,19 +105,35 @@ export default class UserController extends Controller {
   public async register() {
     const { ctx, service } = this;
     const { body } = ctx.request;
-    const { password: unEncrypted } = body;
+    const { password, captcha } = body;
     // 校验参数
     ctx.validate(registerRule);
 
-    const password = crypto
+    let response: Response;
+    // mock captcha === '1234'
+    if (captcha !== '1234') {
+      response = {
+        success: false,
+        msg: '验证码错误',
+      };
+      ctx.body = response;
+      ctx.status = 200;
+
+      return;
+    }
+
+    body.pwd = crypto
       .createHmac('sha256', passwordSecret)
-      .update(unEncrypted)
+      .update(password)
       .digest('hex');
-    body.password = password;
 
-    const result = await service.user.register('user', body);
+    const { error } = await service.user.register(body);
 
-    ctx.body = result;
+    response = {
+      success: !error,
+    };
+
+    ctx.body = response;
     ctx.status = 200;
   }
 
@@ -128,7 +142,12 @@ export default class UserController extends Controller {
 
     ctx.session.user = currentUser;
 
-    ctx.body = this.ctx.session.user;
+    const res: Response = {
+      success: true,
+      data: ctx.session.user,
+    };
+
+    ctx.body = res;
     ctx.status = 200;
   }
 
