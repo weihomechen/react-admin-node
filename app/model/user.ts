@@ -8,15 +8,16 @@ export default app => {
     name: { type: String, unique, required },
     pwd: { type: String, required },
     mobile: { type: String, unique, required },
-    role: { type: String, default: 'user' },
+    countryCode: { type: String, default: '86' },
+    role: { type: String, default: 'user', enum: ['user', 'admin', 'guest'] },
+    email: String,
     avatar: String,
+    geographic: Schema.Types.Mixed,
     address: String,
     signature: String,
     title: String,
     group: String,
     tags: Array,
-    countryCode: Number,
-    geographic: Array,
   });
 
   return mongoose.model('User', userSchema, 'user');

@@ -1,5 +1,5 @@
 export const currentUser = {
-  name: 'ruli fun',
+  name: 'admin',
   avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
   userid: '00000001',
   email: 'antdesign@alipay.com',

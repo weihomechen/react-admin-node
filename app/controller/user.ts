@@ -1,12 +1,12 @@
 import crypto = require('crypto');
 import { Controller } from 'egg';
-import { currentUser } from '../../mock/user';
 import {
   defaultRes,
   passwordSecret,
 } from '../utils';
 import { Response } from '../utils/interface';
 import { loginRule, registerRule } from '../utils/validateRules';
+// import { currentUser } from '../../mock/user';
 
 export default class UserController extends Controller {
   public async login() {
@@ -137,10 +137,42 @@ export default class UserController extends Controller {
     ctx.status = 200;
   }
 
+  public async update() {
+    const { ctx } = this;
+    const { body } = ctx.request;
+    const { _id } = body;
+    let response: Response;
+
+    const user = await ctx.model.User.findByIdAndUpdate(_id, body);
+
+    if (!user) {
+      response = {
+        success: false,
+        msg: '该用户不存在',
+      };
+    } else {
+      ctx.session.user = (await ctx.model.User.find({ _id }))[0];
+      response = {
+        success: true,
+      };
+    }
+
+
+    // body.pwd = crypto
+    //   .createHmac('sha256', passwordSecret)
+    //   .update(password)
+    //   .digest('hex');
+
+    // response = {
+    //   success: !error,
+    // };
+
+    ctx.body = response;
+    ctx.status = 200;
+  }
+
   public info() {
     const { ctx } = this;
-
-    ctx.session.user = currentUser;
 
     const res: Response = {
       success: true,

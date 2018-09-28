@@ -41,6 +41,8 @@
       true,
       "statements"
     ],
-    "arrow-parens": false
+    "arrow-parens": false,
+    "no-any": false,
+    "no-unused-variable": false
   }
 }
