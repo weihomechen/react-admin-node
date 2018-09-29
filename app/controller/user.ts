@@ -1,12 +1,13 @@
 import crypto = require('crypto');
+import sendToWormhole = require('stream-wormhole');
 import { Controller } from 'egg';
 import {
   defaultRes,
+  getFileName,
   passwordSecret,
 } from '../utils';
 import { Response } from '../utils/interface';
 import { loginRule, registerRule } from '../utils/validateRules';
-// import { currentUser } from '../../mock/user';
 
 export default class UserController extends Controller {
   public async login() {
@@ -143,7 +144,7 @@ export default class UserController extends Controller {
     const { _id } = body;
     let response: Response;
 
-    const user = await ctx.model.User.findByIdAndUpdate(_id, body);
+    const user = await ctx.model.User.findByIdAndUpdate(_id, body, { new: true });
 
     if (!user) {
       response = {
@@ -151,7 +152,7 @@ export default class UserController extends Controller {
         msg: '该用户不存在',
       };
     } else {
-      ctx.session.user = (await ctx.model.User.find({ _id }))[0];
+      ctx.session.user = user;
       response = {
         success: true,
       };
@@ -181,6 +182,49 @@ export default class UserController extends Controller {
 
     ctx.body = res;
     ctx.status = 200;
+  }
+
+  public async upload() {
+    const { ctx } = this;
+    const stream = await ctx.getFileStream();
+    const name = getFileName(stream.filename);
+    let result;
+    const failRes = {
+      success: false,
+      msg: '上传失败',
+      code: 'upload failed',
+      data: null,
+    };
+
+    try {
+      result = await ctx.oss.put(name, stream);
+    } catch (err) {
+      await sendToWormhole(stream);
+
+      throw err;
+    }
+
+    if (result) {
+      const { _id } = stream.fields;
+      const { url } = result;
+      const params = {
+        avatar: url,
+      };
+      const user = await ctx.model.User.findByIdAndUpdate(_id, params, { new: true });
+      if (user) {
+        ctx.session.user = user;
+        ctx.body = {
+          success: true,
+          msg: '上传成功',
+          code: 'upload success',
+          data: user,
+        };
+      } else {
+        ctx.body = failRes;
+      }
+    } else {
+      ctx.body = failRes;
+    }
   }
 
 }
