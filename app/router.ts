@@ -9,6 +9,8 @@ export default (app: Application) => {
   router.post('/api/user/register', controller.user.register);
   router.post('/api/user/update', controller.user.update);
   router.post('/api/user/upload', controller.user.upload);
+  router.post('/api/user/updateSecurity', controller.user.updateSecurity);
+
 
   router.get('/api/geographic/province', controller.geographic.province);
   router.get('/api/geographic/city/:province', controller.geographic.city);

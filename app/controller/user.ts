@@ -158,16 +158,6 @@ export default class UserController extends Controller {
       };
     }
 
-
-    // body.pwd = crypto
-    //   .createHmac('sha256', passwordSecret)
-    //   .update(password)
-    //   .digest('hex');
-
-    // response = {
-    //   success: !error,
-    // };
-
     ctx.body = response;
     ctx.status = 200;
   }
@@ -225,6 +215,64 @@ export default class UserController extends Controller {
     } else {
       ctx.body = failRes;
     }
+  }
+
+  /**
+   * 修改安全设置
+   */
+  public async updateSecurity() {
+    const { ctx } = this;
+    const { body } = ctx.request;
+    const { type } = body;
+    let response: Response;
+    let user = ctx.session.user;
+    const { _id } = user;
+
+    switch (type) {
+      case 'pwd': // 更改密码
+        const { oldPassword, password } = body;
+        const pwd = crypto
+          .createHmac('sha256', passwordSecret)
+          .update(oldPassword)
+          .digest('hex');
+
+        if (user.pwd !== pwd) {
+          response = {
+            success: false,
+            msg: '请输入正确的旧密码',
+          };
+
+          ctx.body = response;
+          ctx.status = 200;
+          return;
+        } else {
+          user.pwd = crypto
+            .createHmac('sha256', passwordSecret)
+            .update(password)
+            .digest('hex');
+        }
+        break;
+      case 'mobild': // 更改绑定的手机
+        break;
+      default:
+    }
+
+    user = await ctx.model.User.findByIdAndUpdate(_id, user, { new: true });
+
+    if (!user) {
+      response = {
+        success: false,
+        msg: '该用户不存在',
+      };
+    } else {
+      ctx.session.user = user;
+      response = {
+        success: true,
+      };
+    }
+
+    ctx.body = response;
+    ctx.status = 200;
   }
 
 }
