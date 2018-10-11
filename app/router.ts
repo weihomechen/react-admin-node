@@ -11,6 +11,7 @@ export default (app: Application) => {
   router.post('/api/user/upload', controller.user.upload);
   router.post('/api/user/updateSecurity', controller.user.updateSecurity);
 
+  router.get('/api/captcha', controller.sms.verifyCode);
 
   router.get('/api/geographic/province', controller.geographic.province);
   router.get('/api/geographic/city/:province', controller.geographic.city);

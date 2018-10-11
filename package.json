@@ -21,6 +21,7 @@
     "clean": "ets clean"
   },
   "dependencies": {
+    "@alicloud/sms-sdk": "^1.1.4",
     "egg": "^2.6.1",
     "egg-scripts": "^2.6.0",
     "moment": "^2.22.2",

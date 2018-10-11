@@ -76,8 +76,8 @@ export default (appInfo: EggAppInfo) => {
 
   config.oss = {
     client: {
-      accessKeyId: 'LTAI0GTeZmOJCMRn',
-      accessKeySecret: 'PgPOkzgt7PfdymGyqQSrI9XOAu1sWz',
+      accessKeyId: '',
+      accessKeySecret: '',
       bucket: 'admin-node',
       endpoint: 'oss-cn-hangzhou.aliyuncs.com',
       timeout: '60s',

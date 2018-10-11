@@ -111,8 +111,8 @@ export default class UserController extends Controller {
     ctx.validate(registerRule);
 
     let response: Response;
-    // mock captcha === '1234'
-    if (captcha !== '1234') {
+    // 通用的模拟验证码为1234
+    if (captcha !== '1234' && captcha !== ctx.session.userVerifyCode) {
       response = {
         success: false,
         msg: '验证码错误',
