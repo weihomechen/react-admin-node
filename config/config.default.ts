@@ -1,4 +1,5 @@
 import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg';
+import { ossConfig } from './config.private';
 
 export default (appInfo: EggAppInfo) => {
   const config = {} as PowerPartial<EggAppConfig>;
@@ -76,12 +77,11 @@ export default (appInfo: EggAppInfo) => {
 
   config.oss = {
     client: {
-      accessKeyId: '',
-      accessKeySecret: '',
       bucket: 'admin-node',
       endpoint: 'oss-cn-hangzhou.aliyuncs.com',
       timeout: '60s',
       secure: true,
+      ...ossConfig
     },
   };
 

@@ -1,11 +1,9 @@
 import * as SMSClient from '@alicloud/sms-sdk';
 import { Service } from 'egg';
-
-const accessKeyId = 'youraccessKeyId';
-const secretAccessKey = 'yoursecretAccessKey';
+import { smsConfig } from '../../config/config.private';
 
 // 初始化sms_client demo: https://www.npmjs.com/package/@alicloud/sms-sdk?spm=a2c4g.11186623.2.15.638c3c1d0QeEeU
-const smsClient = new SMSClient({ accessKeyId, secretAccessKey });
+const smsClient = new SMSClient(smsConfig);
 const SignName = 'ifun';
 const TemplateCode = 'SMS_147436702';
 
