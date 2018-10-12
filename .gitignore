@@ -10,4 +10,3 @@ run/
 .DS_Store
 *.sw*
 *.un~
-# app/service/sms.ts
