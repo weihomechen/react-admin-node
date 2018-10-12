@@ -11,6 +11,9 @@ export default (app: Application) => {
   router.post('/api/user/upload', controller.user.upload);
   router.post('/api/user/updateSecurity', controller.user.updateSecurity);
 
+  router.get('/api/project/notice', controller.project.notice);
+  router.get('/api/project/list', controller.project.list);
+
   router.get('/api/captcha', controller.sms.verifyCode);
 
   router.get('/api/geographic/province', controller.geographic.province);

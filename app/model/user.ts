@@ -17,7 +17,7 @@ export default app => {
     signature: String,
     title: String,
     group: String,
-    tags: Array,
+    tags: { type: Array, default: [] },
   });
 
   return mongoose.model('User', userSchema, 'user');
