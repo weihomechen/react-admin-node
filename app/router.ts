@@ -18,4 +18,8 @@ export default (app: Application) => {
 
   router.get('/api/geographic/province', controller.geographic.province);
   router.get('/api/geographic/city/:province', controller.geographic.city);
+
+  router.get('/api/chart/list', controller.chart.list);
+  router.get('/api/tags/list', controller.tags.list);
+
 };
