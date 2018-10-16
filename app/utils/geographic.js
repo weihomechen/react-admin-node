@@ -1,23 +1,24 @@
-export const provinceList = [
+// tslint-disable
+module.exports = provinceList = [
   {
     name: '北京市',
-    id: '110000'
+    id: '110000',
   },
   {
     name: '天津市',
-    id: '120000'
+    id: '120000',
   },
   {
     name: '河北省',
-    id: '130000'
+    id: '130000',
   },
   {
     name: '山西省',
-    id: '140000'
+    id: '140000',
   },
   {
     name: '内蒙古自治区',
-    id: '150000'
+    id: '150000',
   },
   {
     name: '辽宁省',
@@ -137,7 +138,7 @@ export const provinceList = [
   }
 ];
 
-export const cityMap = {
+module.exports = cityMap = {
   '110000': [
     {
       province: '北京市',
