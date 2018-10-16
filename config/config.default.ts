@@ -14,12 +14,16 @@ export default (appInfo: EggAppInfo) => {
   config.mongoose = {
     client: {
       url: 'mongodb://127.0.0.1/admin',
-      options: {},
+      options: {
+        useMongoClient: true,
+        autoReconnect: true,
+        reconnectTries: Number.MAX_VALUE,
+        bufferMaxEntries: 0,
+      },
     },
   };
 
   config.security = {
-    ignore: '/api/',
     domainWhiteList: [
       'http://127.0.0.1:8080',
       'http://118.25.16.129:80',
