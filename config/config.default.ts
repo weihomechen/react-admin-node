@@ -15,7 +15,6 @@ export default (appInfo: EggAppInfo) => {
     client: {
       url: 'mongodb://127.0.0.1/admin',
       options: {
-        useMongoClient: true,
         autoReconnect: true,
         reconnectTries: Number.MAX_VALUE,
         bufferMaxEntries: 0,
