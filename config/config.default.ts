@@ -71,7 +71,7 @@ export default (appInfo: EggAppInfo) => {
     '^/api/user/info',      // 获取用户信息
     '^/api/user/login$',    // 用户登录接口
     '^/api/user/register$', // 用户注册接口
-    '^/api/user/captcha$',  // 获取验证码接口
+    '^/api/captcha$',  // 获取验证码接口
   ];
 
   config.bodyParser = {
