@@ -60,11 +60,19 @@ export default class UserController extends Controller {
     const user = (await ctx.model.User.find(params))[0];
 
     if (user) {
-      response = {
-        success: true,
-        data: { type, currentAuthority: user.role },
-      };
-      ctx.session.user = user;
+      if (+user.status) {
+        response = {
+          success: true,
+          data: { type, currentAuthority: user.role },
+        };
+        ctx.session.user = user;
+      } else {
+        response = {
+          ...defaultRes,
+          data: {},
+          msg: '该用户已被禁用，请联系系统管理员',
+        };
+      }
     } else {
       response = {
         ...defaultRes,
@@ -79,12 +87,39 @@ export default class UserController extends Controller {
 
   public async list() {
     const { ctx } = this;
-    const list = await ctx.model.User.find();
+    const {
+      current = 1,
+      pageSize = 10,
+      name,
+      mobile,
+      status,
+      // sorter,
+      // sorterOrder,
+    } = ctx.query;
+    const skip = (+current - 1) * +pageSize;
+
+    const query = {
+      name: { $regex: name },
+      mobile: { $regex: mobile },
+      status: { $in: [status] },
+      // age: { $gt: 17, $lt: 66 },
+    };
+
+    Object.keys(query).map(key => {
+      if (ctx.query[key] === undefined) {
+        delete query[key];
+      }
+    });
+
+    const res = await this.ctx.model.User.find(query, { pwd: 0, by: 0 })
+      .skip(skip).limit(Number(pageSize))
+      .sort({ createdAt: -1 }).exec();
+    const total = await this.ctx.model.User.count(query).exec();
 
     const response = {
       ...defaultRes,
       success: true,
-      data: { list },
+      data: { list: res, pagination: { current, pageSize, total } },
     };
 
     ctx.body = response;
@@ -157,6 +192,26 @@ export default class UserController extends Controller {
         success: true,
       };
     }
+
+    ctx.body = response;
+    ctx.status = 200;
+  }
+
+  public async updateUsers() {
+    const { ctx } = this;
+    const { body } = ctx.request;
+    const { ids } = body;
+    let response: Response;
+
+    const idList = ids.split(',') || [];
+
+    const res = await Promise.all(idList.map(async _id => {
+      await ctx.model.User.findByIdAndUpdate(_id, body, { new: true });
+    }));
+
+    response = {
+      success: res ? true : false,
+    };
 
     ctx.body = response;
     ctx.status = 200;
