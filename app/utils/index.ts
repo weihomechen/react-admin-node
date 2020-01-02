@@ -1,6 +1,6 @@
 import { Response } from './interface';
 
-function getSuffix(filename) {
+function getSuffix(filename: string): string {
   const pos = filename.lastIndexOf('.');
   let suffix = '';
 
@@ -19,7 +19,7 @@ export const defaultRes: Response = {
   data: null,
 };
 
-export const getFileName = (filename) => {
+export const getFileName = (filename: string): string => {
   const suffix = getSuffix(filename);
   const len = 32;
   const chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';

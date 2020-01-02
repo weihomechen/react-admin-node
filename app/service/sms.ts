@@ -10,7 +10,7 @@ const templateCode = 'SMS_147436702';
 export default class SMSService extends Service {
   public async send(phone: string): Promise<boolean> {
     const { ctx } = this;
-    const code = String(Math.ceil(Math.random() * 1000000));
+    const code = String(Math.ceil(Math.random() * 10000));
 
     // 发送短信
     const success = await smsClient.sendSMS({
